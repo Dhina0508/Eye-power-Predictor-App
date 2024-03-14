@@ -34,6 +34,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     _initializeControllerFuture = _controller.initialize();
   }
 
+  List data = [];
+
   @override
   void dispose() {
     _controller.dispose();
@@ -83,6 +85,23 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   fontSize: fontSize),
             ),
           ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 25,
+            child: Text(
+              data.isEmpty
+                  ? "Close your right Eye."
+                  : data.length == 1
+                      ? "Close your left Eye."
+                      : "use both Eyes.",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  backgroundColor: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30),
+            ),
+          )
         ],
       ),
       bottomNavigationBar: Padding(
@@ -110,15 +129,26 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   final image = await _controller.takePicture();
 
                   if (!context.mounted) return;
-
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ProceedScreen(
-                        fontSize: fontSize,
-                        imagePath: image.path,
+                  data.add({
+                    "path": image.path,
+                    "fontsize": fontSize,
+                    "focus": data.isEmpty
+                        ? "Left Eye"
+                        : data.length == 1
+                            ? "Right Eye"
+                            : "Both Eye"
+                  });
+                  fontSize = 30;
+                  setState(() {});
+                  if (data.length == 3) {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProceedScreen(
+                          data: data,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 } catch (e) {
                   print(e);
                 }

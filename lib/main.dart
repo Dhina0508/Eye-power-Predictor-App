@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(25.0),
               child: Text(
                 'To predict the eye power please hold the phone away from your face, then try to increase the size of the size of the font using the buttons bellow. when you feel it hard to read the text please click the camera button and take a selfi of your face with proper lighting and procceed to predict your eye power.',

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class OutputScreen extends StatefulWidget {
-  const OutputScreen(
-      {super.key, required this.imagePath, required this.fontSize});
-  final String imagePath;
-  final double fontSize;
+  const OutputScreen({
+    super.key,
+  });
 
   @override
   State<OutputScreen> createState() => _OutputScreenState();
