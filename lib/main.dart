@@ -1,11 +1,17 @@
 import 'package:camera/camera.dart';
+import 'package:eye_power_prediction/firebase_options.dart';
 import 'package:eye_power_prediction/screens/startingPages/main_page.dart';
 import 'package:eye_power_prediction/screens/take_picture.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   cameras = await availableCameras();
 
@@ -75,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Padding(
@@ -130,6 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         heroTag: "btn_3",
         onPressed: () {
+          // Navigator.push(context,
+          //     MaterialPageRoute(builder: (context) => FaceDetectorView()));
           int idx = cameras.indexWhere(
               (element) => element.lensDirection == CameraLensDirection.front);
           if (idx == -1) {
