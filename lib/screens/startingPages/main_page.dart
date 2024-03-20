@@ -66,7 +66,7 @@ class _LandingScreenState extends State<LandingScreen> {
               ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24, top: 30),
+                  padding: const EdgeInsets.only(top: 30),
                   child: PageView.builder(
                       controller: pageController,
                       itemCount: _pages.length,

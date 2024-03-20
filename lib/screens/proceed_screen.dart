@@ -2,9 +2,10 @@ import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
 
-import 'package:eye_power_prediction/screens/output_screen.dart';
+import 'package:eye_power_prediction/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:eye_power_prediction/screens/output_screen.dart';
 
 class ProceedScreen extends StatefulWidget {
   final List data;
@@ -54,28 +55,52 @@ class _ProceedScreenState extends State<ProceedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Preview')),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: appcolor,
+        title: const Text(
+          'Preview',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+            fontSize: 22,
+          ),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+            )),
+      ),
       body: isLoading
           ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 20,
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 8,
+                        color: appcolor,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Please wait while we analyse your data",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                  )
-                ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Please wait while we analyze your data....",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    )
+                  ],
+                ),
               ),
             )
           : Padding(
@@ -132,18 +157,33 @@ class _ProceedScreenState extends State<ProceedScreen> {
                     );
                   }),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => OutputScreen(
-                data: payload,
+      floatingActionButton: !isLoading
+          ? Padding(
+              padding: const EdgeInsets.only(right: 15, bottom: 10),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: FloatingActionButton(
+                  shape: CircleBorder(),
+                  backgroundColor: appcolorLight,
+                  onPressed: () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => OutputScreen(
+                          data: payload,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.arrow_forward_outlined,
+                    size: 28,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
-          );
-        },
-        child: const Icon(Icons.arrow_forward_outlined),
-      ),
+            )
+          : null,
     );
   }
 

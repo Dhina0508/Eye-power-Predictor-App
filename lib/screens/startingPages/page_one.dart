@@ -10,30 +10,43 @@ class PageOne extends StatelessWidget {
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Welcome Back !!!",
-            style: TextStyle(
-                fontWeight: FontWeight.w700, fontSize: 30, color: Colors.black),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          SizedBox(
-              width: width * 0.9,
-              child: const Text(
-                "Enjoy a suite of personalized services, from gourmet dining and immaculate laundry care to nutritious tiffin meals and homemaking expertise, all designed to enhance your everyday life.",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff3A3A3A)),
-              )),
-          SizedBox(
-            height: height * 0.05,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Welcome Back !!!",
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 30,
+                  color: Colors.black),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            SizedBox(
+                width: width * 0.9,
+                child: const Text(
+                  "To predict the Eye Power, Hold the mobile away from your face.",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff3A3A3A)),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 40),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  "assets/images/s1.jpg",
+                  height: height * 0.6,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
