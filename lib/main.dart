@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:eye_power_prediction/screens/startingPages/main_page.dart';
 import 'package:eye_power_prediction/screens/take_picture.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Eye power predictor'),
+      // home: const MyHomePage(title: 'EYE POWER PREDICTOR'),
+      home: LandingScreen(),
     );
   }
 }
@@ -57,18 +59,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.remove_red_eye_outlined),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              widget.title,
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(25.0),
-              child: Text(
-                'To predict the eye power please hold the phone away from your face, then try to increase the size of the size of the font using the buttons bellow. when you feel it hard to read the text please click the camera button and take a selfi of your face with proper lighting and procceed to predict your eye power.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromARGB(156, 241, 170, 247)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  child: Text(
+                    'To Predict the eye power, please hold the phone away from your face, then try to increase the size of the font by using the below buttons. When you feel hard to read the text,please take a selfie of your face with proper lighting.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 17),
+                  ),
+                ),
               ),
             ),
             // Padding(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:eye_power_prediction/screens/proceed_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -120,7 +121,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     ),
                   );
                 } catch (e) {
-                  print(e);
+                  if (kDebugMode) {
+                    print(e);
+                  }
                 }
               },
               child: const Icon(Icons.camera_alt),
