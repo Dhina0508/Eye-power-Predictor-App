@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:camera/camera.dart';
@@ -54,7 +56,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     });
   }
 
-  double fontSize = 30;
+  double fontSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +140,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                             ? "Right Eye"
                             : "Both Eye"
                   });
-                  fontSize = 30;
+                  fontSize = 20;
                   setState(() {});
                   if (data.length == 3) {
                     await Navigator.of(context).push(
