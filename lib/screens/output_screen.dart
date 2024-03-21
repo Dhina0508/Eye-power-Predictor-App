@@ -30,86 +30,102 @@ class _OutputScreenState extends State<OutputScreen> {
   List imgUrl = [];
   bool isLoading = true;
   PredictionModel? pm;
+  bool isError = false;
+  String error = "";
+
   loadData() async {
-    for (var i in widget.data) {
-      imgUrl.add(await FirebaseService.uploadImageToFirebase(File(i["path"])));
+    try {
+      for (var i in widget.data) {
+        imgUrl
+            .add(await FirebaseService.uploadImageToFirebase(File(i["path"])));
+      }
+      log(imgUrl.toString());
+      pm = await ApiService.getPrediction(
+          leftImage: imgUrl[0],
+          rightImage: imgUrl[1],
+          bothImage: imgUrl[2],
+          leftFontSize: widget.data[0]["fontsize"],
+          rightFontSize: widget.data[1]["fontsize"],
+          bothFontSize: widget.data[2]["fontsize"]);
+      isLoading = false;
+      setState(() {});
+    } catch (e) {
+      isError = true;
+      error = e.toString();
+      setState(() {});
     }
-    log(imgUrl.toString());
-    pm = await ApiService.getPrediction(
-        leftImage: imgUrl[0],
-        rightImage: imgUrl[1],
-        bothImage: imgUrl[2],
-        leftFontSize: widget.data[0]["fontsize"],
-        rightFontSize: widget.data[1]["fontsize"],
-        bothFontSize: widget.data[2]["fontsize"]);
-    isLoading = false;
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Please wait while we analyse your data",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                  )
-                ],
-              ),
+      body: isError
+          ? Center(
+              child: Text(error),
             )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.remove_red_eye_outlined,
-                    size: 100,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          : isLoading
+              ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Here is your report.",
+                      SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Please wait while we analyse your data",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 25),
+                      )
+                    ],
+                  ),
+                )
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.remove_red_eye_outlined,
+                        size: 100,
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      Text("Left eye: ${pm!.leftPower![0].toStringAsFixed(3)}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                      Text(
-                          "right eye: ${pm!.rightPower![0].toStringAsFixed(3)}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                      Text("you might have: ${pm!.diagnosis![0]}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Here is your report.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              "Left eye: ${pm!.leftPower![0].toStringAsFixed(3)}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          Text(
+                              "right eye: ${pm!.rightPower![0].toStringAsFixed(3)}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          Text("you might have: ${pm!.diagnosis![0]}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
+                  ),
+                ),
     );
   }
 
