@@ -41,6 +41,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    data;
     super.dispose();
   }
 

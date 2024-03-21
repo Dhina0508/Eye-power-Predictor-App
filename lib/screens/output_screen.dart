@@ -1,3 +1,9 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:eye_power_prediction/model/prediction_model.dart';
+import 'package:eye_power_prediction/service/api_service.dart';
+import 'package:eye_power_prediction/service/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ml_algo/ml_algo.dart';
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -23,12 +29,21 @@ class _OutputScreenState extends State<OutputScreen> {
   String left = "";
   String right = "";
   String diagonis = "";
-
+  List imgUrl = [];
   bool isLoading = true;
+  PredictionModel? pm;
   loadData() async {
-    left = await getleftEyePower();
-    right = await getrightEyePower();
-    diagonis = await getdiagonis();
+    for (var i in widget.data) {
+      imgUrl.add(await FirebaseService.uploadImageToFirebase(File(i["path"])));
+    }
+    log(imgUrl.toString());
+    pm = await ApiService.getPrediction(
+        leftImage: imgUrl[0],
+        rightImage: imgUrl[1],
+        bothImage: imgUrl[2],
+        leftFontSize: widget.data[0]["fontsize"],
+        rightFontSize: widget.data[1]["fontsize"],
+        bothFontSize: widget.data[2]["fontsize"]);
     isLoading = false;
     setState(() {});
   }
@@ -82,14 +97,14 @@ class _OutputScreenState extends State<OutputScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Left eye: $left",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                      Text("right eye: $right",
+                      Text("Left eye: ${pm!.leftPower![0].toStringAsFixed(3)}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20)),
                       Text(
-                          "you might have: ${diagonis == "1" ? "Myopia" : diagonis == "2" ? "Hypermyopiya" : "Normal"}",
+                          "right eye: ${pm!.rightPower![0].toStringAsFixed(3)}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)),
+                      Text("you might have: ${pm!.diagnosis![0]}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20)),
                     ],
