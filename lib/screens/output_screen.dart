@@ -5,8 +5,6 @@ import 'package:eye_power_prediction/model/prediction_model.dart';
 import 'package:eye_power_prediction/service/api_service.dart';
 import 'package:eye_power_prediction/service/firebase_service.dart';
 import 'package:flutter/material.dart';
-import 'package:ml_algo/ml_algo.dart';
-import 'package:ml_dataframe/ml_dataframe.dart';
 
 class OutputScreen extends StatefulWidget {
   const OutputScreen({
@@ -115,81 +113,81 @@ class _OutputScreenState extends State<OutputScreen> {
     );
   }
 
-  Future getleftEyePower() async {
-    var json = await DefaultAssetBundle.of(context)
-        .loadString("assets/left_eye_model.json");
-    final model = LinearRegressor.fromJson(json);
-    final tester = DataFrame([
-      [
-        "left_eye_distance",
-        'right_eye_distance',
-        "both_eye_distance",
-        "left_fontsize",
-        "right_fontsize",
-        "both_eye_fontsize"
-      ],
-      [
-        widget.data[0]["distance"],
-        widget.data[1]["distance"],
-        widget.data[2]["distance"],
-        widget.data[0]["fontsize"],
-        widget.data[1]["fontsize"],
-        widget.data[2]["fontsize"],
-      ]
-    ]);
-    final prediction = model.predict(tester);
-    return (prediction.rows.first.first).toStringAsFixed(3);
-  }
+  // Future getleftEyePower() async {
+  //   var json = await DefaultAssetBundle.of(context)
+  //       .loadString("assets/left_eye_model.json");
+  //   final model = LinearRegressor.fromJson(json);
+  //   final tester = DataFrame([
+  //     [
+  //       "left_eye_distance",
+  //       'right_eye_distance',
+  //       "both_eye_distance",
+  //       "left_fontsize",
+  //       "right_fontsize",
+  //       "both_eye_fontsize"
+  //     ],
+  //     [
+  //       widget.data[0]["distance"],
+  //       widget.data[1]["distance"],
+  //       widget.data[2]["distance"],
+  //       widget.data[0]["fontsize"],
+  //       widget.data[1]["fontsize"],
+  //       widget.data[2]["fontsize"],
+  //     ]
+  //   ]);
+  //   final prediction = model.predict(tester);
+  //   return (prediction.rows.first.first).toStringAsFixed(3);
+  // }
 
-  Future getrightEyePower() async {
-    var json = await DefaultAssetBundle.of(context)
-        .loadString("assets/right_eye_model.json");
-    final model = LinearRegressor.fromJson(json);
-    final tester = DataFrame([
-      [
-        "left_eye_distance",
-        'right_eye_distance',
-        "both_eye_distance",
-        "left_fontsize",
-        "right_fontsize",
-        "both_eye_fontsize"
-      ],
-      [
-        widget.data[0]["distance"],
-        widget.data[1]["distance"],
-        widget.data[2]["distance"],
-        widget.data[0]["fontsize"],
-        widget.data[1]["fontsize"],
-        widget.data[2]["fontsize"],
-      ]
-    ]);
-    final prediction = model.predict(tester);
-    return (prediction.rows.first.first).toStringAsFixed(3);
-  }
+  // Future getrightEyePower() async {
+  //   var json = await DefaultAssetBundle.of(context)
+  //       .loadString("assets/right_eye_model.json");
+  //   final model = LinearRegressor.fromJson(json);
+  //   final tester = DataFrame([
+  //     [
+  //       "left_eye_distance",
+  //       'right_eye_distance',
+  //       "both_eye_distance",
+  //       "left_fontsize",
+  //       "right_fontsize",
+  //       "both_eye_fontsize"
+  //     ],
+  //     [
+  //       widget.data[0]["distance"],
+  //       widget.data[1]["distance"],
+  //       widget.data[2]["distance"],
+  //       widget.data[0]["fontsize"],
+  //       widget.data[1]["fontsize"],
+  //       widget.data[2]["fontsize"],
+  //     ]
+  //   ]);
+  //   final prediction = model.predict(tester);
+  //   return (prediction.rows.first.first).toStringAsFixed(3);
+  // }
 
-  Future getdiagonis() async {
-    var json = await DefaultAssetBundle.of(context)
-        .loadString("assets/diagnose_model.json");
-    final model = LinearRegressor.fromJson(json);
-    final tester = DataFrame([
-      [
-        "left_eye_distance",
-        'right_eye_distance',
-        "both_eye_distance",
-        "left_fontsize",
-        "right_fontsize",
-        "both_eye_fontsize"
-      ],
-      [
-        widget.data[0]["distance"],
-        widget.data[1]["distance"],
-        widget.data[2]["distance"],
-        widget.data[0]["fontsize"],
-        widget.data[1]["fontsize"],
-        widget.data[2]["fontsize"],
-      ]
-    ]);
-    final prediction = model.predict(tester);
-    return (prediction.rows.first.first.ceil()).toString();
-  }
+  // Future getdiagonis() async {
+  //   var json = await DefaultAssetBundle.of(context)
+  //       .loadString("assets/diagnose_model.json");
+  //   final model = LinearRegressor.fromJson(json);
+  //   final tester = DataFrame([
+  //     [
+  //       "left_eye_distance",
+  //       'right_eye_distance',
+  //       "both_eye_distance",
+  //       "left_fontsize",
+  //       "right_fontsize",
+  //       "both_eye_fontsize"
+  //     ],
+  //     [
+  //       widget.data[0]["distance"],
+  //       widget.data[1]["distance"],
+  //       widget.data[2]["distance"],
+  //       widget.data[0]["fontsize"],
+  //       widget.data[1]["fontsize"],
+  //       widget.data[2]["fontsize"],
+  //     ]
+  //   ]);
+  //   final prediction = model.predict(tester);
+  //   return (prediction.rows.first.first.ceil()).toString();
+  // }
 }
