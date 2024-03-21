@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:eye_power_prediction/firebase_options.dart';
 import 'package:eye_power_prediction/screens/startingPages/main_page.dart';
-import 'package:eye_power_prediction/screens/take_picture.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: const MyHomePage(title: 'EYE POWER PREDICTOR'),
-      home: LandingScreen(),
+      home: const LandingScreen(),
     );
   }
 }

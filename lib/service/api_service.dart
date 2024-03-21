@@ -27,6 +27,7 @@ class ApiService {
     if (res.statusCode >= 200 && res.statusCode <= 300) {
       return PredictionModel.fromJson(jsonDecode(res.body));
     } else {
+      // ignore: avoid_print
       print("error");
     }
   }

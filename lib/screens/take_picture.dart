@@ -79,7 +79,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
             )),
@@ -137,7 +137,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               onPressed: _decrimentCounter,
               heroTag: "btn_1",
               tooltip: 'reduce',
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               child: const Icon(Icons.remove),
             ),
             FloatingActionButton(
@@ -145,7 +145,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               heroTag: "btn_2",
               onPressed: _incrementCounter,
               tooltip: 'Increment',
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               child: const Icon(Icons.add),
             ),
             SizedBox(
@@ -179,7 +179,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           ),
                         ),
                       );
-
                     }
                   } catch (e) {
                     if (kDebugMode) {
