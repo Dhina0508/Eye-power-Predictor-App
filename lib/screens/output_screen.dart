@@ -2,9 +2,14 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:eye_power_prediction/model/prediction_model.dart';
+import 'package:eye_power_prediction/screens/startingPages/main_page.dart';
 import 'package:eye_power_prediction/service/api_service.dart';
 import 'package:eye_power_prediction/service/firebase_service.dart';
+import 'package:eye_power_prediction/utils/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_avif/flutter_avif.dart';
+import 'package:lottie/lottie.dart';
 
 class OutputScreen extends StatefulWidget {
   const OutputScreen({
@@ -59,73 +64,128 @@ class _OutputScreenState extends State<OutputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: !isError && !isLoading
+          ? AppBar(
+              title: Text(
+                "YOUR REPORT",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                  )),
+              centerTitle: true,
+              backgroundColor: appcolor,
+            )
+          : null,
       body: isError
           ? Center(
               child: Text(error),
             )
           : isLoading
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 20,
+              ? Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          "assets/lottie/eye.json",
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Please wait while we analyse your data",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
-                      )
-                    ],
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Please wait while we analyze your data....",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25),
+                        )
+                      ],
+                    ),
                   ),
                 )
               : Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.remove_red_eye_outlined,
-                        size: 100,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Here is your report.",
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                              "Left eye: ${pm!.leftPower![0].toStringAsFixed(3)}",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                          Text(
-                              "right eye: ${pm!.rightPower![0].toStringAsFixed(3)}",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                          Text("you might have: ${pm!.diagnosis![0]}",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                        ],
-                      )
-                    ],
+                            pm!.diagnosis![0] == 'normal'
+                                ? "Your Eyesight Appears to be Normal"
+                                : "You might have ${pm!.diagnosis![0]},  Please contact a Doctor for further Evaluation",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 23)),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        pm!.diagnosis![0] == 'normal'
+                            ? Image.asset("assets/images/noSpecs.png")
+                            : AvifImage.asset(
+                                "assets/images/specs.avif",
+                              ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "Left Eye Power: ${pm!.leftPower![0].toStringAsFixed(3)}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 21)),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                                "Right Eye Power: ${pm!.rightPower![0].toStringAsFixed(3)}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 21)),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
+      bottomNavigationBar: !isLoading
+          ? SizedBox(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LandingScreen()),
+                            (route) => false);
+                      },
+                      child: Text(
+                        "OK >>>",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: appcolor),
+                      )),
+                  SizedBox(
+                    width: 30,
+                  )
+                ],
+              ),
+            )
+          : Container(
+              height: 1,
+            ),
     );
   }
 

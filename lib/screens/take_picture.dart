@@ -103,7 +103,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 right: 0,
                 top: 25,
                 child: Text(
-                  "Hi I'm your Virtual Eye Doctor",
+                  " Hi I'm your Virtual Eye Doctor ",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       backgroundColor: Colors.white,
